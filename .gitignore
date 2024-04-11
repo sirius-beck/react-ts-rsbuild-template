@@ -1,0 +1,8 @@
+node_modules
+.yarn
+.build
+log
+logs
+.log
+.logs
+*.log
