@@ -10,5 +10,5 @@
     "skipLibCheck": true,
     "moduleResolution": "node16"
   },
-  "include": ["rsbuild.config.ts"]
+  "include": ["scripts"]
 }

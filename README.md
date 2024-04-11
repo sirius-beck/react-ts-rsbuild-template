@@ -1,8 +1,6 @@
 # TO-DO
 
-- [ ] Add minify configuration for html: [output.htmlOptions](https://rsbuild.dev/config/output/minify#customize-html-code-minification)
-- [ ] Check html template parameters: [html.templateParameters](https://rsbuild.dev/config/html/template-parameters)
-- [ ] Check if there is any way to inject `js` into `index.html` through the rsbuild configuration (to inject the `createRoot.render()` part of react)
+- [ ] Setup rsbuild dev config: [dev.assetPrefix](https://rsbuild.dev/config/dev/asset-prefix)
 
 # Util links
 

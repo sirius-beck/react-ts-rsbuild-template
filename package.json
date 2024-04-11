@@ -2,19 +2,10 @@
   "name": "react-ts-swc-template",
   "version": "1.0.0",
   "description": "",
-  "scripts": {
-    "dev": "rsbuild dev --open",
-    "build": "rsbuild build",
-    "build:dev": "cross-env NODE_ENV=development pnpm build",
-    "clean": "rimraf -I .build",
-    "inspect": "cross-env NODE_ENV=production rsbuild inspect",
-    "inspect:dev": "cross-env NODE_ENV=development rsbuild inspect",
-    "preview": "cross-env NODE_ENV=production rsbuild preview --open",
-    "preview:dev": "cross-env NODE_ENV=development rsbuild preview --open"
-  },
   "keywords": [],
-  "author": "",
+  "author": "Sirius Beck <siriusbeck.work@gmail.com> (https://github.com/sirius-beck)",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -26,7 +17,18 @@
     "@types/react": "^18.2.75",
     "@types/react-dom": "^18.2.24",
     "cross-env": "^7.0.3",
+    "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "typescript": "^5.4.4"
+  },
+  "scripts": {
+    "dev": "rsbuild dev --open",
+    "build": "rsbuild build",
+    "build:dev": "cross-env NODE_ENV=development pnpm build",
+    "clean": "rimraf -I .build",
+    "inspect": "cross-env NODE_ENV=production rsbuild inspect",
+    "inspect:dev": "cross-env NODE_ENV=development rsbuild inspect",
+    "preview": "cross-env NODE_ENV=production rsbuild preview --open",
+    "preview:dev": "cross-env NODE_ENV=development rsbuild preview --open"
   }
 }

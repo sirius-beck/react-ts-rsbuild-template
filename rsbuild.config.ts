@@ -9,7 +9,7 @@ function whenDev<T = any>(value: T, fallback: T): T {
   return isDev ? value : fallback
 }
 
-const favicon = (() => {
+const htmlFavicon = (() => {
   return [
     './public/favicon.ico',
     './public/favicon.png',
@@ -27,7 +27,7 @@ export default defineConfig({
     }
   },
   output: {
-    // assetPrefix: isProd ? 'https://cdn.example.com/' : '',
+    // assetPrefix: whenDev('', 'https://cdn.example.com/assets/'),
     charset: 'utf8',
     copy: [
       {
@@ -35,7 +35,7 @@ export default defineConfig({
         to: '',
         noErrorOnMissing: true,
         globOptions: {
-          ignore: ['**/index.html', favicon ?? '']
+          ignore: ['**/index.html', htmlFavicon ?? '']
         }
       }
     ],
@@ -92,6 +92,9 @@ export default defineConfig({
           comments: false
         },
         mangle: true
+      },
+      htmlOptions: {
+        removeComments: true
       }
     }),
     sourceMap: {
@@ -100,8 +103,16 @@ export default defineConfig({
     }
   },
   html: {
-    favicon,
-    inject: 'body'
+    favicon: htmlFavicon,
+    inject: 'body',
+    template({ value, entryName }) {
+      const template = [
+        `./public/${entryName}.html`,
+        './public/index.html'
+      ].find((file) => fs.existsSync(file))
+      return template ?? value
+    },
+    title: 'React App'
   },
   plugins: [pluginReact()]
 })

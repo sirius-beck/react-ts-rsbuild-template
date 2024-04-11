@@ -25,6 +25,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "rsbuild.config.ts"],
   "references": [{ "path": "tsconfig.node.json" }]
 }
