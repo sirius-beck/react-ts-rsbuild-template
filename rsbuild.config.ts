@@ -9,17 +9,6 @@ function whenDev<T = any>(value: T, fallback: T): T {
   return isDev ? value : fallback
 }
 
-const htmlFavicon = (() => {
-  return [
-    './public/favicon.ico',
-    './public/favicon.png',
-    './public/favicon.svg',
-    './public/icon.ico',
-    './public/icon.png',
-    './public/icon.svg'
-  ].find((icon) => fs.existsSync(icon))
-})()
-
 export default defineConfig({
   source: {
     entry: {
@@ -29,16 +18,6 @@ export default defineConfig({
   output: {
     // assetPrefix: whenDev('', 'https://cdn.example.com/assets/'),
     charset: 'utf8',
-    copy: [
-      {
-        from: './public',
-        to: '',
-        noErrorOnMissing: true,
-        globOptions: {
-          ignore: ['**/index.html', htmlFavicon ?? '']
-        }
-      }
-    ],
     distPath: whenDev(
       {
         root: '.build',
@@ -103,7 +82,16 @@ export default defineConfig({
     }
   },
   html: {
-    favicon: htmlFavicon,
+    favicon() {
+      return [
+        './public/favicon.ico',
+        './public/favicon.png',
+        './public/favicon.svg',
+        './public/icon.ico',
+        './public/icon.png',
+        './public/icon.svg'
+      ].find((icon) => fs.existsSync(icon))
+    },
     inject: 'body',
     template({ value, entryName }) {
       const template = [
@@ -113,6 +101,12 @@ export default defineConfig({
       return template ?? value
     },
     title: 'React App'
+  },
+  server: {
+    publicDir: {
+      name: 'public',
+      copyOnBuild: true
+    }
   },
   plugins: [pluginReact()]
 })
