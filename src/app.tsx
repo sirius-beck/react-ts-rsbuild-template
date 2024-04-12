@@ -1,10 +1,5 @@
-import Home from '@/pages/home'
+import AppRoutes from '@/routes'
 
 export default function App() {
-  return (
-    <div>
-      <h1>Hello, world!</h1>
-      <Home />
-    </div>
-  )
+  return <AppRoutes />
 }
