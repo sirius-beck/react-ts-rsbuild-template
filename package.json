@@ -2,7 +2,14 @@
   "name": "react-ts-rsbuild-template",
   "version": "1.0.0",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "react",
+    "typescript",
+    "rsbuild",
+    "template",
+    "swc",
+    "react-router-dom"
+  ],
   "author": "Sirius Beck <siriusbeck.work@gmail.com> (https://github.com/sirius-beck)",
   "license": "MIT",
   "type": "module",
