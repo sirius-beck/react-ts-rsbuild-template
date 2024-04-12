@@ -2,8 +2,8 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as url from 'url'
 
-const pagesDirectory = path.join(process.cwd(), 'src/pages')
-const routesFile = path.join(process.cwd(), 'src/routes.tsx')
+export const pagesDirectory = path.join(process.cwd(), 'src/pages')
+export const routesFile = path.join(process.cwd(), 'src/routes.tsx')
 
 /**
  * Determines if the current module is being run as a script.
@@ -46,7 +46,7 @@ function generateRoutePath(fileName: string): string {
  */
 function parseComponentName(fileName: string): string {
   return fileName
-    .split(/[-\.]/)
+    .split(/[-.]/)
     .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
     .join('')
 }
@@ -75,9 +75,9 @@ export default function AppRoutes() {
  * code is then written to a `Routes.tsx` file in the `src` directory, which exports a `AppRoutes` component. This component
  * can be used to configure routing in a React application.
  */
-export async function generateRoutes(): Promise<void> {
-  let imports: string[] = [] // Accumulates import statements for the page components.
-  let routes: string[] = [] // Accumulates <Route> configurations for each page.
+export function generateRoutesSync(): void {
+  const imports: string[] = [] // Accumulates import statements for the page components.
+  const routes: string[] = [] // Accumulates <Route> configurations for each page.
 
   // Read the pages directory and process each file/directory found.
   fs.readdirSync(pagesDirectory).forEach((file) => {
@@ -90,15 +90,23 @@ export async function generateRoutes(): Promise<void> {
       if (fs.existsSync(indexFile)) {
         // Generate route path and update imports and routes strings.
         const routePath = generateRoutePath(file)
-        imports.push(`import ${parseComponentName(file)} from './pages/${file}'`)
-        routes.push(`<Route path="${routePath}" element={<${parseComponentName(file)} />} />`)
+        imports.push(
+          `import ${parseComponentName(file)} from './pages/${file}'`
+        )
+        routes.push(
+          `<Route path='${routePath}' element={<${parseComponentName(file)} />} />`
+        )
       }
     } else if (file.endsWith('.tsx')) {
       // If the file is a .tsx file, generate route path and update imports and routes strings.
       const routePath = generateRoutePath(file)
       const componentName = file.replace(/\.tsx$/, '')
-      imports.push(`import ${parseComponentName(componentName)} from './pages/${componentName}'`)
-      routes.push(`<Route path="${routePath}" element={<${parseComponentName(componentName)} />} />`)
+      imports.push(
+        `import ${parseComponentName(componentName)} from './pages/${componentName}'`
+      )
+      routes.push(
+        `<Route path='${routePath}' element={<${parseComponentName(componentName)} />} />`
+      )
     }
   })
 
@@ -109,9 +117,28 @@ export async function generateRoutes(): Promise<void> {
   fs.writeFileSync(routesFile, content)
 }
 
-if (isRunningAsScript()) {
-  generateRoutes().catch((err) => {
-    console.error(err)
-    process.exit(1)
+/**
+ * Asynchronously generates and writes the routes configuration for a React application.
+ *
+ * This function wraps the synchronous `generateRoutesSync` function in a promise to provide an asynchronous interface.
+ * It attempts to generate the routes configuration by reading the `src/pages` directory, creating import statements and
+ * route configurations for each page, and writing these to a `Routes.tsx` file in the `src` directory. If the operation
+ * succeeds, the promise is resolved; if it fails due to an error, the promise is rejected with the encountered error.
+ *
+ * @returns {Promise<void>} A promise that resolves when the routes configuration has been successfully generated and written,
+ * or rejects with an error if the operation fails.
+ */
+export async function generateRoutes(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    try {
+      generateRoutesSync()
+      resolve()
+    } catch (err) {
+      reject(err)
+    }
   })
+}
+
+if (isRunningAsScript()) {
+  generateRoutesSync()
 }

@@ -4,12 +4,13 @@ import { pluginReact } from '@rsbuild/plugin-react'
 import { pluginImageCompress } from '@rsbuild/plugin-image-compress'
 import { generateRoutes } from './scripts/generateRoutes.js'
 
-;(async () => await generateRoutes())()
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _ = (async () => await generateRoutes())()
 
 const isDev = process.env.NODE_ENV === 'development'
 
-function whenDev<V = any, F = any>(value: V, fallback: F): V | F
-function whenDev<T = any>(value: T, fallback: T): T {
+function whenDev<V = unknown, F = unknown>(value: V, fallback: F): V | F
+function whenDev<T = unknown>(value: T, fallback: T): T {
   return isDev ? value : fallback
 }
 

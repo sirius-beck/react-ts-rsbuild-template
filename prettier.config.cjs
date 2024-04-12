@@ -4,7 +4,7 @@ module.exports = {
   bracketSpacing: true,
   endOfLine: 'lf',
   jsxSingleQuote: true,
-  printWidth: 120,
+  printWidth: 80,
   semi: false,
   singleQuote: true,
   tabWidth: 2,
@@ -12,9 +12,9 @@ module.exports = {
   useTabs: false,
   overrides: [
     {
-      files: './rsbuild.config.ts',
+      files: ['**/*.tsx'],
       options: {
-        printWidth: 80
+        printWidth: 100
       }
     }
   ]
