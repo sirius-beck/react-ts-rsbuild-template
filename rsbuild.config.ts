@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import { defineConfig } from '@rsbuild/core'
 import { pluginReact } from '@rsbuild/plugin-react'
+import { pluginImageCompress } from '@rsbuild/plugin-image-compress'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -108,5 +109,24 @@ export default defineConfig({
       copyOnBuild: true
     }
   },
-  plugins: [pluginReact()]
+  performance: {
+    bundleAnalyze: whenDev({}, undefined),
+    chunkSplit: {
+      /** For targets without HTTP/2 support, change the strategy. See https://rsbuild.dev/guide/optimization/split-chunk */
+      strategy: 'split-by-module'
+    }
+  },
+  plugins: [
+    pluginReact(),
+    whenDev(
+      undefined,
+      ...[
+        pluginImageCompress([
+          { use: 'jpeg', test: /\.(?:jpg|jpeg|jpe)$/ },
+          'pngLossless',
+          'ico'
+        ])
+      ]
+    )
+  ]
 })
