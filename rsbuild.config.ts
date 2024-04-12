@@ -4,7 +4,7 @@ import { pluginReact } from '@rsbuild/plugin-react'
 import { pluginImageCompress } from '@rsbuild/plugin-image-compress'
 import { generateRoutes } from './scripts/generateRoutes.js'
 
-await generateRoutes()
+;(async () => await generateRoutes())()
 
 const isDev = process.env.NODE_ENV === 'development'
 

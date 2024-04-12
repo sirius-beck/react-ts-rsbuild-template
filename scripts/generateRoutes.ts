@@ -3,8 +3,8 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as url from 'url'
 
-const pagesDirectory = path.join(import.meta.dirname, '../src/pages')
-const routesFile = path.join(import.meta.dirname, '../src/routes.tsx')
+const pagesDirectory = path.join(process.cwd(), 'src/pages')
+const routesFile = path.join(process.cwd(), 'src/routes.tsx')
 
 /**
  * Determines if the current module is being run as a script.
@@ -111,5 +111,8 @@ export async function generateRoutes(): Promise<void> {
 }
 
 if (isRunningAsScript()) {
-  await generateRoutes()
+  generateRoutes().catch((err) => {
+    console.error(err)
+    process.exit(1)
+  })
 }
